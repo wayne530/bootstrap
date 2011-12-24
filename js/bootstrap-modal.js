@@ -56,10 +56,8 @@
 
   var Modal = function ( content, options ) {
     this.settings = $.extend({}, $.fn.modal.defaults, options)
-    this.$element = $(content);
-    if (this.settings.allowClose) {
-      this.$element.delegate('.close', 'click.modal', $.proxy(this.hide, this))
-    }
+    this.$element = $(content)
+      .delegate('.close', 'click.modal', this.settings.allowClose ? $.proxy(this.hide, this) : function(e) { e && e.preventDefault(); })
 
     if ( this.settings.show ) {
       this.show()
