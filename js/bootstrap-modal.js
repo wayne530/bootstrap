@@ -56,8 +56,10 @@
 
   var Modal = function ( content, options ) {
     this.settings = $.extend({}, $.fn.modal.defaults, options)
-    this.$element = $(content)
-      .delegate('.close', 'click.modal', $.proxy(this.hide, this))
+    this.$element = $(content);
+    if (this.settings.allowClose) {
+      this.$element.delegate('.close', 'click.modal', $.proxy(this.hide, this))
+    }
 
     if ( this.settings.show ) {
       this.show()
@@ -160,7 +162,7 @@
       this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
         .appendTo(document.body)
 
-      if ( this.settings.backdrop != 'static' ) {
+      if ( this.settings.backdrop != 'static' && this.settings.allowClose ) {
         this.$backdrop.click($.proxy(this.hide, this))
       }
 
@@ -243,6 +245,7 @@
     backdrop: false
   , keyboard: false
   , show: false
+  , allowClose: true
   }
 
 
